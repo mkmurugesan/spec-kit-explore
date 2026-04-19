@@ -18,9 +18,10 @@ public class JwtProperties {
         if (secret == null || secret.isBlank()) {
             throw new IllegalStateException("jwt.secret must be configured");
         }
-        // HS256 requires a minimum of 256 bits (32 bytes)
-        if (secret.getBytes(java.nio.charset.StandardCharsets.UTF_8).length < 32) {
-            throw new IllegalStateException("jwt.secret must be at least 32 characters (256 bits) for HS256");
+        // HS256 requires a minimum of 256 bits (32 bytes). Require at least 32 characters
+        // to ensure the secret is long enough when encoded as bytes.
+        if (secret.length() < 32) {
+            throw new IllegalStateException("jwt.secret must be at least 32 characters for HS256");
         }
     }
 
