@@ -90,8 +90,8 @@ The following paths are added to `SecurityConfig.jwtFilterChain` `permitAll` mat
 |--------|------|------|
 | POST | `/v1/api/auth/signup` | None |
 | POST | `/v1/api/auth/signin` | None |
-| POST | `/v1/api/password-reset/request` | None |
-| POST | `/v1/api/password-reset/confirm` | None |
+| POST | `/v1/api/auth/password-reset/request` | None |
+| POST | `/v1/api/auth/password-reset/confirm` | None |
 | GET | `/v1/api/admin/users` | HTTP Basic (ADMIN) |
 | GET | `/v1/api/admin/users/{id}` | HTTP Basic (ADMIN) |
 | DELETE | `/v1/api/admin/users/{id}` | HTTP Basic (ADMIN) |

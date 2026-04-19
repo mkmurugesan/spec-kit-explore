@@ -18,7 +18,7 @@ A developer or API consumer opens a web browser and navigates to the documentati
 **Acceptance Scenarios**:
 
 1. **Given** the application is running, **When** a user navigates to the Swagger UI URL in a browser, **Then** a fully rendered interactive API documentation page is displayed.
-2. **Given** the Swagger UI page is loaded, **When** the user browses the endpoint list, **Then** all five endpoint groups are visible: `POST /v1/api/auth/signup`, `POST /v1/api/auth/signin`, `POST /v1/api/password-reset/request`, `POST /v1/api/password-reset/confirm`, and the admin endpoints under `/v1/api/admin/**`.
+2. **Given** the Swagger UI page is loaded, **When** the user browses the endpoint list, **Then** all five endpoint groups are visible: `POST /v1/api/auth/signup`, `POST /v1/api/auth/signin`, `POST /v1/api/auth/password-reset/request`, `POST /v1/api/auth/password-reset/confirm`, and the admin endpoints under `/v1/api/admin/**`.
 3. **Given** the Swagger UI page is loaded, **When** a user expands any endpoint, **Then** request body schema, field names, field types, and example response schemas are displayed.
 
 ---
@@ -57,7 +57,7 @@ A developer or new team member who has not yet signed in can still access the Sw
 
 - What happens when the application starts but no endpoints are registered? The documentation page should still load but show an empty or minimal spec.
 - How does the system handle requests to the Swagger UI path when the application is behind a reverse proxy with a context path? The documentation URLs should respect any configured context path.
-- What appears for admin endpoints that require JWT authentication in the UI? The UI must display these endpoints with a clear indication that authentication is required, and provide a way to input a Bearer token.
+- What appears for admin endpoints that require HTTP Basic authentication in the UI? The UI must display these endpoints with a clear indication that authentication is required, and provide a way to input HTTP Basic credentials.
 
 ## Requirements *(mandatory)*
 
@@ -65,10 +65,10 @@ A developer or new team member who has not yet signed in can still access the Sw
 
 - **FR-001**: The application MUST expose an interactive Swagger UI page accessible via a browser at a documented URL (e.g., `/swagger-ui.html` or `/swagger-ui/index.html`).
 - **FR-002**: The application MUST expose a machine-readable OpenAPI 3.x specification document at a documented URL (e.g., `/v3/api-docs`).
-- **FR-003**: The documentation MUST include all existing endpoints: `POST /v1/api/auth/signup`, `POST /v1/api/auth/signin`, `POST /v1/api/password-reset/request`, `POST /v1/api/password-reset/confirm`, and all routes under `/v1/api/admin/**`.
+- **FR-003**: The documentation MUST include all existing endpoints: `POST /v1/api/auth/signup`, `POST /v1/api/auth/signin`, `POST /v1/api/auth/password-reset/request`, `POST /v1/api/auth/password-reset/confirm`, and all routes under `/v1/api/admin/**`.
 - **FR-004**: Each documented endpoint MUST include: HTTP method, full path, brief description, request body schema (where applicable), and expected success/error response schemas.
 - **FR-005**: The Swagger UI URL and OpenAPI spec URL MUST be permitted by the application's security configuration so they are accessible without authentication.
-- **FR-006**: Endpoints under `/v1/api/admin/**` MUST be annotated in the documentation to indicate that they require authentication (Bearer JWT token), and the UI MUST provide a mechanism to supply a token for test requests.
+- **FR-006**: Endpoints under `/v1/api/admin/**` MUST be annotated in the documentation to indicate that they require authentication using HTTP Basic auth, and the UI MUST provide a mechanism to supply those credentials for test requests.
 - **FR-007**: The documentation MUST include at minimum a title, version, and brief description for the API as a whole.
 - **FR-008**: No new business logic, data persistence, or backend processing MUST be introduced — this feature is documentation-only.
 
@@ -89,8 +89,8 @@ These are the documentation-serving endpoints introduced by this feature:
 | Method | Path | Description | Success Response |
 |--------|------|-------------|-----------------|
 | GET | `/swagger-ui/index.html` (or `/swagger-ui.html`) | Renders the interactive Swagger UI | 200 + HTML page |
-| GET | `/v3/api-docs` | Returns the OpenAPI 3.x JSON specification | 200 + JSON document |
-| GET | `/v3/api-docs.yaml` | Returns the OpenAPI 3.x YAML specification | 200 + YAML document |
+| GET | `/v1/api-docs` | Returns the OpenAPI 3.x JSON specification | 200 + JSON document |
+| GET | `/v1/api-docs.yaml` | Returns the OpenAPI 3.x YAML specification | 200 + YAML document |
 
 **Manual Validation**: Access each URL via browser and curl after application startup to confirm HTTP 200 responses.
 

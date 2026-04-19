@@ -62,8 +62,8 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // Dedicated provider for admin Basic Auth — uses NoOpPasswordEncoder
-    // so plain-text property values are compared directly (never BCrypt)
+    // Dedicated provider for admin Basic Auth — uses delegating password encoder
+    // with {noop} prefix so plain-text property values are compared directly (never BCrypt)
     @Bean
     public DaoAuthenticationProvider adminAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
@@ -103,7 +103,13 @@ public class SecurityConfig {
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/index.html", "/styles.css", "/app.js").permitAll()
-                .requestMatchers("/swagger-ui/**", "/swagger-ui.html", "/v1/api-docs/**").permitAll()
+                .requestMatchers(
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v1/api-docs",
+                        "/v1/api-docs.yaml",
+                        "/v1/api-docs/**"
+                ).permitAll()
                 .requestMatchers("/v1/api/auth/**").permitAll()
                 .anyRequest().authenticated()
             )

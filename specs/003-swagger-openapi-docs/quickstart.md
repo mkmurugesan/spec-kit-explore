@@ -56,8 +56,8 @@ for p in sorted(paths): print(p)
 # Expected output includes:
 # /v1/api/auth/signup
 # /v1/api/auth/signin
-# /v1/api/password-reset/request
-# /v1/api/password-reset/confirm
+# /v1/api/auth/password-reset/request
+# /v1/api/auth/password-reset/confirm
 # /v1/api/admin/... (one or more admin paths)
 ```
 

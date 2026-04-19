@@ -16,7 +16,7 @@ public class OpenAPIConfig {
                 .info(new Info()
                         .title("User Management API")
                         .description("REST API for user signup, signin, and password reset. Admin endpoints require HTTP Basic authentication.")
-                        .version("v1"))
+                        .version("1.0.0"))
                 .components(new Components()
                         .addSecuritySchemes("bearerAuth", new SecurityScheme()
                                 .type(SecurityScheme.Type.HTTP)

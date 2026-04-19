@@ -22,8 +22,8 @@ The following entities/DTOs are already defined in the codebase and will be surf
 | `SignupResponse` | Response for signup | `dto` |
 | `SigninRequest` | Request body for `POST /v1/api/auth/signin` | `dto` |
 | `SigninResponse` | Response for signin (includes tokens) | `dto` |
-| `PasswordResetRequestDto` | Request body for `POST /v1/api/password-reset/request` | `dto` |
-| `PasswordResetConfirmDto` | Request body for `POST /v1/api/password-reset/confirm` | `dto` |
+| `PasswordResetRequestDto` | Request body for `POST /v1/api/auth/password-reset/request` | `dto` |
+| `PasswordResetConfirmDto` | Request body for `POST /v1/api/auth/password-reset/confirm` | `dto` |
 | `UserSummaryDto` | Response element for admin user listing | `dto` |
 
 No field modifications, validation changes, or new classes are required by this feature.
