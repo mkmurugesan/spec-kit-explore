@@ -122,7 +122,7 @@ The following existing endpoints are consumed by the UI. No changes to the backe
 | POST | `/v1/api/auth/password-reset/request` | Forgot Password – Step 1 |
 | POST | `/v1/api/auth/password-reset/confirm` | Forgot Password – Step 2 |
 
-**Error response format assumed** (based on existing backend): The API returns JSON error bodies. Field-level validation errors are expected under a `errors` map keyed by field name; generic messages are expected under a top-level `message` field. The UI gracefully handles deviations from this structure by falling back to a generic message.
+**Error response format assumed** (based on existing backend): The API returns JSON error bodies. Field-level validation errors are expected under a `details` object keyed by field name; generic messages are expected under a top-level `message` field. The UI gracefully handles deviations from this structure by falling back to a generic message.
 
 ---
 

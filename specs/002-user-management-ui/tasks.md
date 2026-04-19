@@ -262,8 +262,8 @@ T001 → T002 → T003 → T004 → T005 → T006 → T007 → T008
 
 ## Notes
 
-- **No backend Java changes**: Zero files in `src/main/java/` are created or modified.
-- **No build step**: After editing static files, simply refresh the browser (or restart Spring Boot if the classpath cache needs invalidation — unlikely for static resources in dev mode with `spring.web.resources.static-locations` default).
+- **Backend support may be required**: While the primary feature work is in static UI files, supporting changes to backend Java or application configuration may be needed to enable the UI end-to-end; do not assume `src/main/java/` and related config files remain untouched.
+- **No frontend build step**: After editing static files, simply refresh the browser (or restart Spring Boot if the classpath cache needs invalidation — unlikely for static resources in dev mode with `spring.web.resources.static-locations` default).
 - **[P] tasks** = different files, no incomplete-task dependencies — safe to parallelise.
 - **[Story] labels** map each task to its user story for traceability to spec.md acceptance scenarios.
 - **Commit after each checkpoint** to keep history granular and reversible.

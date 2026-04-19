@@ -71,7 +71,7 @@ function parseApiError(body) {
     return { fieldErrors: null, globalMessage: 'Something went wrong. Please try again later.' };
   }
   const fieldErrors = (body.details && Object.keys(body.details).length) ? body.details : null;
-  const globalMessage = body.error ?? body.message ?? 'Something went wrong. Please try again later.';
+  const globalMessage = body.message ?? body.error ?? 'Something went wrong. Please try again later.';
   return { fieldErrors, globalMessage };
 }
 
@@ -87,6 +87,7 @@ async function apiPost(endpoint, payload) {
   } catch (_networkErr) {
     return {
       ok: false,
+      networkError: true,
       apiError: {
         fieldErrors: null,
         globalMessage: 'Could not reach the server. Please check your connection.',
@@ -103,7 +104,7 @@ async function apiPost(endpoint, payload) {
   if (response.ok) {
     return { ok: true, data: body };
   }
-  return { ok: false, apiError: parseApiError(body) };
+  return { ok: false, status: response.status, apiError: parseApiError(body) };
 }
 
 /* ── User Story 1: Sign-Up ────────────────────────────────── */
@@ -202,13 +203,19 @@ async function handleForgotStep1(e) {
   const result = await apiPost(ENDPOINTS.resetRequest, { email });
   setLoading(form, false);
 
-  // Network failure: show connection error; for any HTTP response show generic confirmation
-  if (!result.ok && result.apiError.globalMessage === 'Could not reach the server. Please check your connection.') {
+  // Network failure: stay on step 1 and show connection error
+  if (result.networkError) {
     renderErrors(form, result.apiError);
     return;
   }
 
-  // For any HTTP response (ok or error), show generic confirmation
+  // Validation error (e.g. 400 with field errors): render inline and stay on step 1
+  if (!result.ok && result.apiError.fieldErrors) {
+    renderErrors(form, result.apiError);
+    return;
+  }
+
+  // For any other HTTP response (ok or non-validation error), show generic confirmation
   const section = form.closest('section');
   const banner = section && section.querySelector('.error-banner');
   if (banner) {

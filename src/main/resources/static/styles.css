@@ -134,10 +134,14 @@ button:disabled::after {
   display: block;
 }
 
-/* Navigation links */
-a[data-view] {
+/* Navigation buttons styled as links */
+button[data-view] {
+  background: none;
+  border: none;
+  padding: 0;
   color: #6366f1;
   cursor: pointer;
   text-decoration: underline;
+  font-size: inherit;
 }
 

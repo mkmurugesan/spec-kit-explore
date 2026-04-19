@@ -71,7 +71,9 @@ src/main/resources/static/       ← NEW directory (Spring Boot serves this at w
 └── app.js                       ← NEW: view switching, fetch wrappers, error parsing, token storage
 ```
 
-**No other source files are created or modified.**
+**Backend support may be required**: While the primary feature work is in static UI files, supporting changes to backend Java or application configuration may be needed to enable the UI end-to-end; do not assume `src/main/java/` and related config files remain untouched.
+
+**No frontend build step**: Static UI edits do not require a separate frontend build; refresh the browser for static resource changes, and restart Spring Boot whenever backend Java or configuration files are modified.
 
 **Structure Decision**: All UI files live flat under `src/main/resources/static/`. Spring Boot's `WebMvcAutoConfiguration` maps this classpath location to `/` automatically via `ResourceHttpRequestHandler`. `index.html` is served at `http://localhost:8080/`. No Spring MVC controller or configuration change is needed.
 
