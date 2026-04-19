@@ -30,11 +30,12 @@ public class UserService {
     }
 
     public SignupResponse register(SignupRequest request) {
-        if (userRepository.existsByEmail(request.email())) {
-            throw new EmailAlreadyInUseException("Email is already in use: " + request.email());
+        String normalizedEmail = request.email().trim().toLowerCase();
+        if (userRepository.existsByEmail(normalizedEmail)) {
+            throw new EmailAlreadyInUseException("Email is already in use: " + normalizedEmail);
         }
         User user = User.builder()
-                .email(request.email())
+                .email(normalizedEmail)
                 .passwordHash(passwordEncoder.encode(request.password()))
                 .firstName(request.firstName())
                 .lastName(request.lastName())
@@ -53,8 +54,12 @@ public class UserService {
     }
 
     public SigninResponse signin(SigninRequest request) {
-        User user = userRepository.findByEmail(request.email())
+        String normalizedEmail = request.email().trim().toLowerCase();
+        User user = userRepository.findByEmail(normalizedEmail)
                 .orElseThrow(() -> new InvalidCredentialsException("Invalid email or password"));
+        if (user.getStatus() != UserStatus.ACTIVE) {
+            throw new InvalidCredentialsException("Invalid email or password");
+        }
         if (!passwordEncoder.matches(request.password(), user.getPasswordHash())) {
             throw new InvalidCredentialsException("Invalid email or password");
         }

@@ -227,9 +227,8 @@ Content-Type: application/json
 
 ```json
 {
-  "status": 400,
-  "error": "Invalid or expired reset token",
-  "timestamp": "2026-04-19T10:00:00Z"
+  "error": "Unauthorized",
+  "message": "Token is expired or has already been used"
 }
 ```
 
@@ -237,10 +236,8 @@ Content-Type: application/json
 
 ```json
 {
-  "status": 400,
-  "error": "Validation Failed",
-  "details": { "newPassword": "size must be between 8 and 2147483647" },
-  "timestamp": "2026-04-19T10:00:00Z"
+  "error": "Bad Request",
+  "message": "newPassword: size must be between 8 and 2147483647"
 }
 ```
 
@@ -252,12 +249,10 @@ All error responses follow this structure:
 
 ```json
 {
-  "status": "<HTTP status code>",
   "error": "<human-readable summary>",
-  "details": { "<field>": "<message>" },
-  "timestamp": "<ISO-8601 UTC>"
+  "message": "<details or validation errors>"
 }
 ```
 
-`details` is omitted for non-validation errors.
+`message` contains a comma-separated list of field errors for validation failures (HTTP 400), or a descriptive message for other errors.
 

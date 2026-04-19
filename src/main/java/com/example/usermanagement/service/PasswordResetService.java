@@ -1,9 +1,9 @@
 package com.example.usermanagement.service;
 
 import com.example.usermanagement.exception.InvalidCredentialsException;
-import com.example.usermanagement.exception.ResourceNotFoundException;
 import com.example.usermanagement.model.PasswordResetToken;
 import com.example.usermanagement.model.User;
+import com.example.usermanagement.model.UserStatus;
 import com.example.usermanagement.repository.PasswordResetTokenRepository;
 import com.example.usermanagement.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,8 +39,9 @@ public class PasswordResetService {
 
     @Transactional
     public String requestReset(String email) {
-        Optional<User> userOpt = userRepository.findByEmail(email);
-        if (userOpt.isEmpty()) {
+        String normalizedEmail = email.trim().toLowerCase();
+        Optional<User> userOpt = userRepository.findByEmail(normalizedEmail);
+        if (userOpt.isEmpty() || userOpt.get().getStatus() != UserStatus.ACTIVE) {
             // Prevent email enumeration — return null silently
             return null;
         }
@@ -68,7 +69,7 @@ public class PasswordResetService {
     @Transactional
     public void confirmReset(String token, String newPassword) {
         PasswordResetToken resetToken = passwordResetTokenRepository.findByToken(token)
-                .orElseThrow(() -> new ResourceNotFoundException("Password reset token not found"));
+                .orElseThrow(() -> new InvalidCredentialsException("Token is expired or has already been used"));
 
         if (resetToken.isUsed() || !resetToken.getExpiresAt().isAfter(Instant.now())) {
             throw new InvalidCredentialsException("Token is expired or has already been used");

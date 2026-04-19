@@ -85,7 +85,7 @@ curl -s http://localhost:8080/actuator/health | python3 -m json.tool
 ```bash
 curl -s -X POST http://localhost:8080/v1/api/auth/signup \
   -H "Content-Type: application/json" \
-  -d '{"email":"alice@example.com","password":"SecurePass1","name":"Alice"}' \
+  -d '{"email":"alice@example.com","password":"SecurePass1","firstName":"Alice","lastName":"Smith"}' \
   | python3 -m json.tool
 # Expected: HTTP 201, user summary (no password field)
 ```
