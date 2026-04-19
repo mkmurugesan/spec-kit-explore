@@ -21,15 +21,17 @@ Content-Type: application/json
 
 ```json
 {
-  "name": "Alice Smith",
   "email": "alice@example.com",
+  "firstName": "Alice",
+  "lastName": "Smith",
   "password": "SecurePass1"
 }
 ```
 
 | Field | Type | Required | Constraints |
 |---|---|---|---|
-| `name` | string | yes | 1–100 characters |
+| `firstName` | string | yes | 1–100 characters |
+| `lastName` | string | yes | 1–100 characters |
 | `email` | string | yes | Valid RFC-5322 email; must be unique |
 | `password` | string | yes | Minimum 8 characters |
 
@@ -40,7 +42,8 @@ Content-Type: application/json
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "Alice Smith",
+  "firstName": "Alice",
+  "lastName": "Smith",
   "email": "alice@example.com",
   "status": "ACTIVE",
   "createdAt": "2026-04-19T10:00:00Z"

@@ -52,14 +52,16 @@ No request body. No query parameters in v1.
 [
   {
     "id": "550e8400-e29b-41d4-a716-446655440000",
-    "name": "Alice Smith",
+    "firstName": "Alice",
+    "lastName": "Smith",
     "email": "alice@example.com",
     "status": "ACTIVE",
     "createdAt": "2026-04-19T10:00:00Z"
   },
   {
     "id": "660e8400-e29b-41d4-a716-446655440111",
-    "name": "Bob Jones",
+    "firstName": "Bob",
+    "lastName": "Jones",
     "email": "bob@example.com",
     "status": "ACTIVE",
     "createdAt": "2026-04-19T11:00:00Z"
@@ -72,7 +74,8 @@ Returns an empty array `[]` when no users are registered.
 | Field | Type | Description |
 |---|---|---|
 | `id` | UUID string | User's unique identifier |
-| `name` | string | Display name provided at registration |
+| `firstName` | string | First name provided at registration |
+| `lastName` | string | Last name provided at registration |
 | `email` | string | Registered email address |
 | `status` | string | `ACTIVE` or `INACTIVE` |
 | `createdAt` | ISO-8601 UTC | Account creation timestamp |
@@ -119,7 +122,8 @@ No request body.
 ```json
 {
   "id": "550e8400-e29b-41d4-a716-446655440000",
-  "name": "Alice Smith",
+  "firstName": "Alice",
+  "lastName": "Smith",
   "email": "alice@example.com",
   "status": "ACTIVE",
   "createdAt": "2026-04-19T10:00:00Z"
@@ -129,7 +133,8 @@ No request body.
 | Field | Type | Description |
 |---|---|---|
 | `id` | UUID string | User's unique identifier |
-| `name` | string | Display name |
+| `firstName` | string | First name |
+| `lastName` | string | Last name |
 | `email` | string | Email address |
 | `status` | string | `ACTIVE` or `INACTIVE` |
 | `createdAt` | ISO-8601 UTC | Account creation timestamp |

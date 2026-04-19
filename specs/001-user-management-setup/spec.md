@@ -153,12 +153,12 @@ The master admin credentials are fixed configuration values loaded from applicat
 
 | Method | Path | Description | Success Response |
 |--------|------|-------------|-----------------|
-| POST | `/api/auth/signup` | Register a new user account | 201 + user summary (no password) |
-| POST | `/api/auth/signin` | Authenticate and receive token pair | 200 + access token + refresh token |
-| POST | `/api/auth/password-reset/request` | Initiate a password reset | 200 + token in body (dev) / generic message (prod) |
-| POST | `/api/auth/password-reset/confirm` | Complete reset with token + new password | 200 + confirmation |
-| GET | `/api/admin/users` | List all registered users (admin only) | 200 + user list |
-| GET | `/api/admin/users/{id}` | Get details for a specific user (admin only) | 200 + user detail / 404 if not found |
+| POST | `/v1/api/auth/signup` | Register a new user account | 201 + user summary (no password) |
+| POST | `/v1/api/auth/signin` | Authenticate and receive token pair | 200 + access token + refresh token |
+| POST | `/v1/api/auth/password-reset/request` | Initiate a password reset | 200 + token in body (dev) / generic message (prod) |
+| POST | `/v1/api/auth/password-reset/confirm` | Complete reset with token + new password | 200 + confirmation |
+| GET | `/v1/api/admin/users` | List all registered users (admin only) | 200 + user list |
+| GET | `/v1/api/admin/users/{id}` | Get details for a specific user (admin only) | 200 + user detail / 404 if not found |
 
 **Manual Validation**: All endpoints MUST be validated via curl, Postman, or equivalent HTTP client; call logs and response payloads MUST be captured in feature docs.
 
