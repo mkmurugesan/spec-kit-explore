@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="User Management">
+  <meta name="theme-color" content="#6366f1">
+  <title>User Management</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main>
+    <!-- Sign In (default view) -->
+    <section id="view-signin">
+      <h1>Sign In</h1>
+      <div class="error-banner"></div>
+      <form id="form-signin" novalidate>
+        <label for="signin-email">Email</label>
+        <input type="email" id="signin-email" name="email" autocomplete="email" required>
+        <span class="field-error" data-field="email"></span>
+
+        <label for="signin-password">Password</label>
+        <input type="password" id="signin-password" name="password" autocomplete="current-password" required>
+        <span class="field-error" data-field="password"></span>
+
+        <button type="submit">Sign In</button>
+      </form>
+      <p><button type="button" data-view="view-signup">Create account</button></p>
+      <p><button type="button" data-view="view-forgot-step1">Forgot password?</button></p>
+    </section>
+
+    <!-- Sign Up -->
+    <section id="view-signup" class="hidden">
+      <h1>Create Account</h1>
+      <div class="error-banner"></div>
+      <form id="form-signup" novalidate>
+        <label for="signup-firstName">First Name</label>
+        <input type="text" id="signup-firstName" name="firstName" autocomplete="given-name" required>
+        <span class="field-error" data-field="firstName"></span>
+
+        <label for="signup-lastName">Last Name</label>
+        <input type="text" id="signup-lastName" name="lastName" autocomplete="family-name" required>
+        <span class="field-error" data-field="lastName"></span>
+
+        <label for="signup-email">Email</label>
+        <input type="email" id="signup-email" name="email" autocomplete="email" required>
+        <span class="field-error" data-field="email"></span>
+
+        <label for="signup-password">Password</label>
+        <input type="password" id="signup-password" name="password" autocomplete="new-password" required>
+        <span class="field-error" data-field="password"></span>
+
+        <button type="submit">Create Account</button>
+      </form>
+      <p><button type="button" data-view="view-signin">Already have an account? Sign in</button></p>
+    </section>
+
+    <!-- Forgot Password Step 1 -->
+    <section id="view-forgot-step1" class="hidden">
+      <h1>Forgot Password</h1>
+      <div class="error-banner"></div>
+      <form id="form-forgot-step1" novalidate>
+        <label for="forgot1-email">Email</label>
+        <input type="email" id="forgot1-email" name="email" autocomplete="email" required>
+        <span class="field-error" data-field="email"></span>
+
+        <button type="submit">Send Reset Link</button>
+      </form>
+      <p><button type="button" data-view="view-signin">Back to Sign In</button></p>
+    </section>
+
+    <!-- Forgot Password Step 2 -->
+    <section id="view-forgot-step2" class="hidden">
+      <h1>Reset Password</h1>
+      <div class="error-banner"></div>
+      <form id="form-forgot-step2" novalidate>
+        <label for="forgot2-token">Reset Token</label>
+        <input type="text" id="forgot2-token" name="token" placeholder="Paste reset token" autocomplete="off" required>
+        <span class="field-error" data-field="token"></span>
+
+        <label for="forgot2-newPassword">New Password</label>
+        <input type="password" id="forgot2-newPassword" name="newPassword" autocomplete="new-password" required>
+        <span class="field-error" data-field="newPassword"></span>
+
+        <button type="submit">Reset Password</button>
+      </form>
+      <p><button type="button" data-view="view-forgot-step1">Request new token</button></p>
+    </section>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
+
