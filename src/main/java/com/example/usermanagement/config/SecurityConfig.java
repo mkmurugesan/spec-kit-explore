@@ -14,13 +14,14 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.AuthenticationEntryPoint;
@@ -61,13 +62,13 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
-    // Dedicated provider for admin Basic Auth — uses NoOpPasswordEncoder
-    // so plain-text property values are compared directly (never BCrypt)
+    // Dedicated provider for admin Basic Auth — uses delegating password encoder
+    // with {noop} prefix so plain-text property values are compared directly (never BCrypt)
     @Bean
     public DaoAuthenticationProvider adminAuthenticationProvider() {
         DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
         provider.setUserDetailsService(adminUserDetailsService());
-        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        provider.setPasswordEncoder(PasswordEncoderFactories.createDelegatingPasswordEncoder());
         return provider;
     }
 
@@ -76,7 +77,7 @@ public class SecurityConfig {
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
         http
             .securityMatcher("/v1/api/admin/**")
-            .csrf(csrf -> csrf.disable())
+            .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authenticationProvider(adminAuthenticationProvider())
             .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
@@ -98,10 +99,17 @@ public class SecurityConfig {
     @Order(2)
     public SecurityFilterChain jwtFilterChain(HttpSecurity http) throws Exception {
         http
-            .csrf(csrf -> csrf.disable())
+            .csrf(AbstractHttpConfigurer::disable)
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/", "/index.html", "/styles.css", "/app.js").permitAll()
+                .requestMatchers(
+                        "/swagger-ui/**",
+                        "/swagger-ui.html",
+                        "/v1/api-docs",
+                        "/v1/api-docs.yaml",
+                        "/v1/api-docs/**"
+                ).permitAll()
                 .requestMatchers("/v1/api/auth/**").permitAll()
                 .anyRequest().authenticated()
             )
@@ -113,7 +121,7 @@ public class SecurityConfig {
     @Bean
     public UserDetailsService adminUserDetailsService() {
         var admin = User.withUsername(adminUsername)
-                .password(adminPassword)   // plain text — NoOpPasswordEncoder handles comparison
+                .password("{noop}" + adminPassword)   // {noop} prefix → delegating encoder skips hashing
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(admin);
