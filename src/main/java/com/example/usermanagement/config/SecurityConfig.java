@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -18,6 +19,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
@@ -46,6 +48,7 @@ public class SecurityConfig {
         this.userRepository = userRepository;
     }
 
+    // BCrypt encoder used ONLY for regular user passwords
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -56,6 +59,16 @@ public class SecurityConfig {
         return config.getAuthenticationManager();
     }
 
+    // Dedicated provider for admin Basic Auth — uses NoOpPasswordEncoder
+    // so plain-text property values are compared directly (never BCrypt)
+    @Bean
+    public DaoAuthenticationProvider adminAuthenticationProvider() {
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(adminUserDetailsService());
+        provider.setPasswordEncoder(NoOpPasswordEncoder.getInstance());
+        return provider;
+    }
+
     @Bean
     @Order(1)
     public SecurityFilterChain adminFilterChain(HttpSecurity http) throws Exception {
@@ -63,9 +76,9 @@ public class SecurityConfig {
             .securityMatcher("/v1/api/admin/**")
             .csrf(csrf -> csrf.disable())
             .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authenticationProvider(adminAuthenticationProvider())
             .authorizeHttpRequests(auth -> auth.anyRequest().authenticated())
-            .httpBasic(basic -> {})
-            .userDetailsService(adminUserDetailsService());
+            .httpBasic(basic -> {});
         return http.build();
     }
 
@@ -86,9 +99,8 @@ public class SecurityConfig {
 
     @Bean
     public UserDetailsService adminUserDetailsService() {
-        var admin = User.builder()
-                .username(adminUsername)
-                .password("{noop}" + adminPassword)
+        var admin = User.withUsername(adminUsername)
+                .password(adminPassword)   // plain text — NoOpPasswordEncoder handles comparison
                 .roles("ADMIN")
                 .build();
         return new InMemoryUserDetailsManager(admin);

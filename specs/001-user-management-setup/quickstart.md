@@ -42,7 +42,7 @@ All configurable values are set via environment variables in `docker-compose.yml
 | `AUTH_PASSWORD_RESET_TOKEN_EXPIRY` | `1h` | Password reset token lifetime |
 | `JWT_SECRET` | `change-me-in-production-min-256-bit-key` | HMAC-SHA256 signing key |
 | `ADMIN_MASTER_USERNAME` | `dev-admin` | Master admin username |
-| `ADMIN_MASTER_PASSWORD` | `D3v@dm1n!S3cur3` | Master admin password |
+| `ADMIN_MASTER_PASSWORD` | `dev-password` | Master admin password |
 | `APP_ENV` | `dev` | Environment mode (`dev` returns reset token in response body) |
 
 ---
@@ -133,7 +133,7 @@ curl -s -X POST http://localhost:8080/v1/api/auth/password-reset/confirm \
 ### 5.5 Admin — List Users
 
 ```bash
-curl -s -u dev-admin:D3v@dm1n!S3cur3 \
+curl -s -u dev-admin:dev-password \
   http://localhost:8080/v1/api/admin/users \
   | python3 -m json.tool
 # Expected: HTTP 200, array of user objects (no password fields)
@@ -143,7 +143,7 @@ curl -s -u dev-admin:D3v@dm1n!S3cur3 \
 
 ```bash
 USER_ID=<paste a user id from the list above>
-curl -s -u dev-admin:D3v@dm1n!S3cur3 \
+curl -s -u dev-admin:dev-password \
   http://localhost:8080/v1/api/admin/users/$USER_ID \
   | python3 -m json.tool
 # Expected: HTTP 200, user detail object

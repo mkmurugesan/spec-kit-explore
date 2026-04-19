@@ -18,28 +18,28 @@ services:
       timeout: 5s
       retries: 5
 
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    container_name: userapp
-    depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - "8080:8080"
-    environment:
-      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/userdb
-      SPRING_DATASOURCE_USERNAME: userapp
-      SPRING_DATASOURCE_PASSWORD: userapp_pass
-      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
-      JWT_SECRET: change-me-in-production-min-256-bit-key-abcdefghijklmnop
-      JWT_ACCESS_TOKEN_EXPIRY: 15m
-      JWT_REFRESH_TOKEN_EXPIRY: 7d
-      AUTH_PASSWORD_RESET_TOKEN_EXPIRY: 1h
-      ADMIN_MASTER_USERNAME: dev-admin
-      ADMIN_MASTER_PASSWORD: "D3v@dm1n!S3cur3"
-      APP_ENV: dev
+#  app:
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+#    container_name: userapp
+#    depends_on:
+#      db:
+#        condition: service_healthy
+#    ports:
+#      - "8080:8080"
+#    environment:
+#      SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/userdb
+#      SPRING_DATASOURCE_USERNAME: userapp
+#      SPRING_DATASOURCE_PASSWORD: userapp_pass
+#      SPRING_JPA_HIBERNATE_DDL_AUTO: validate
+#      JWT_SECRET: change-me-in-production-min-256-bit-key-abcdefghijklmnop
+#      JWT_ACCESS_TOKEN_EXPIRY: 15m
+#      JWT_REFRESH_TOKEN_EXPIRY: 7d
+#      AUTH_PASSWORD_RESET_TOKEN_EXPIRY: 1h
+#      ADMIN_MASTER_USERNAME: dev-admin
+#      ADMIN_MASTER_PASSWORD: "dev-password"
+#      APP_ENV: dev
 
 volumes:
   postgres_data:

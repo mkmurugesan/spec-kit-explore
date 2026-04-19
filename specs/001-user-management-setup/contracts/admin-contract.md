@@ -15,7 +15,7 @@ All admin endpoints require HTTP Basic Authentication using the master credentia
 | Property | Default (dev only) |
 |---|---|
 | `admin.master.username` | `dev-admin` |
-| `admin.master.password` | `D3v@dm1n!S3cur3` |
+| `admin.master.password` | `dev-password` |
 
 **Header format**:
 ```
@@ -24,7 +24,7 @@ Authorization: Basic <base64(username:password)>
 
 **curl shorthand**:
 ```bash
-curl -u dev-admin:D3v@dm1n!S3cur3 http://localhost:8080/v1/api/admin/users
+curl -u dev-admin:dev-password http://localhost:8080/v1/api/admin/users
 ```
 
 > **Security note**: These defaults are for local development only. Both values MUST be overridden via environment variables or a secrets manager before staging or production deployment. The application will refuse to start if either value is absent or blank.

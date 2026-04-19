@@ -130,7 +130,7 @@ description: "Task list for User Management Setup feature"
   ```properties
   # Admin master credentials — MUST be overridden before any non-local deployment
   admin.master.username=${ADMIN_MASTER_USERNAME:dev-admin}
-  admin.master.password=${ADMIN_MASTER_PASSWORD:D3v@dm1n!S3cur3}
+  admin.master.password=${ADMIN_MASTER_PASSWORD:dev-password}
   # App environment — controls whether reset token appears in response body
   app.env=${APP_ENV:dev}
   ```

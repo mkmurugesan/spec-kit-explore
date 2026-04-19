@@ -150,7 +150,7 @@ Admin credentials are loaded exclusively from application properties at startup.
 
 ```properties
 admin.master.username=dev-admin
-admin.master.password=D3v@dm1n!S3cur3
+admin.master.password=dev-password
 ```
 
 A `@PostConstruct`-guarded `@ConfigurationProperties` bean validates both values are non-blank at startup (FR-012a). If either is missing, the application throws `IllegalStateException` and refuses to start.

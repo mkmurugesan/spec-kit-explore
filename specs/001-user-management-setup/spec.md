@@ -125,7 +125,7 @@ The master admin credentials are fixed configuration values loaded from applicat
 | Property | Default Value (Development Only) | Notes |
 |----------|----------------------------------|-------|
 | `admin.master.username` | `dev-admin` | Change before any non-local deployment |
-| `admin.master.password` | `D3v@dm1n!S3cur3` | Rotate before any non-local deployment |
+| `admin.master.password` | `dev-password` | Rotate before any non-local deployment |
 
 > **Security Note**: These defaults are for local development only. Both values MUST be overridden via environment variables or a secrets manager before staging or production deployment. The application will refuse to start if either value is absent.
 
