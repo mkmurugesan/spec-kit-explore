@@ -17,21 +17,29 @@
   the iteration process.
 -->
 
-**Language/Version**: [e.g., Python 3.11, Swift 5.9, Rust 1.75 or NEEDS CLARIFICATION]  
-**Primary Dependencies**: [e.g., FastAPI, UIKit, LLVM or NEEDS CLARIFICATION]  
-**Storage**: [if applicable, e.g., PostgreSQL, CoreData, files or N/A]  
-**Testing**: [e.g., pytest, XCTest, cargo test or NEEDS CLARIFICATION]  
-**Target Platform**: [e.g., Linux server, iOS 15+, WASM or NEEDS CLARIFICATION]
-**Project Type**: [e.g., library/cli/web-service/mobile-app/compiler/desktop-app or NEEDS CLARIFICATION]  
-**Performance Goals**: [domain-specific, e.g., 1000 req/s, 10k lines/sec, 60 fps or NEEDS CLARIFICATION]  
-**Constraints**: [domain-specific, e.g., <200ms p95, <100MB memory, offline-capable or NEEDS CLARIFICATION]  
-**Scale/Scope**: [domain-specific, e.g., 10k users, 1M LOC, 50 screens or NEEDS CLARIFICATION]
+**Language/Version**: Java [NEEDS CLARIFICATION: confirm JDK version, e.g., 21 LTS]  
+**Framework**: Spring Boot [NEEDS CLARIFICATION: confirm latest stable version at implementation time, e.g., 3.x]  
+**Build Tool**: Maven (latest stable)  
+**Primary Dependencies**: Spring Web, Spring Data JPA (only if persistence needed) — add ONLY if justified per constitution Principle III  
+**Storage**: [if applicable, e.g., PostgreSQL, H2 — or N/A]  
+**Testing**: Prohibited by constitution (manual validation only — no JUnit, Mockito, or any test framework)  
+**Target Platform**: Linux server / JVM backend  
+**Project Type**: Spring Boot backend REST API  
+**Performance Goals**: [e.g., < 200 ms p95 API response under 500 concurrent requests, or NEEDS CLARIFICATION]  
+**Constraints**: [e.g., < 200 ms p95, minimal heap usage — or NEEDS CLARIFICATION]  
+**Scale/Scope**: [e.g., 10k requests/day, handful of REST endpoints — or NEEDS CLARIFICATION]
 
 ## Constitution Check
 
 *GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
 
-[Gates determined based on constitution file]
+- [ ] **Latest Spring Boot**: Confirmed version `[x.y.z]` is the latest stable release at implementation time.
+- [ ] **Latest Maven**: Confirmed version `[x.y.z]` is the latest stable release at implementation time.
+- [ ] **Layered architecture**: Design follows controller → service → repository boundaries; no cross-layer shortcuts.
+- [ ] **Minimal dependencies**: Every listed dependency has a documented justification; no dependency added for trivial utility.
+- [ ] **No test frameworks**: Dependency list contains NO JUnit, Mockito, Testcontainers, Spring Boot Test, or any other test/assertion library.
+- [ ] **No test artifacts**: No `src/test/` directories, test classes, test configuration, or test pipeline steps are planned.
+- [ ] **Backend only**: No frontend, mobile, or UI framework is referenced in the plan.
 
 ## Project Structure
 
@@ -56,39 +64,22 @@ specs/[###-feature]/
 -->
 
 ```text
-# [REMOVE IF UNUSED] Option 1: Single project (DEFAULT)
+# Spring Boot Maven Standard Layout
 src/
-├── models/
-├── services/
-├── cli/
-└── lib/
-
-tests/
-├── contract/
-├── integration/
-└── unit/
-
-# [REMOVE IF UNUSED] Option 2: Web application (when "frontend" + "backend" detected)
-backend/
-├── src/
-│   ├── models/
-│   ├── services/
-│   └── api/
-└── tests/
-
-frontend/
-├── src/
-│   ├── components/
-│   ├── pages/
-│   └── services/
-└── tests/
-
-# [REMOVE IF UNUSED] Option 3: Mobile + API (when "iOS/Android" detected)
-api/
-└── [same as backend above]
-
-ios/ or android/
-└── [platform-specific structure: feature modules, UI flows, platform tests]
+├── main/
+│   ├── java/
+│   │   └── com/[org]/[app]/
+│   │       ├── [AppName]Application.java   # Spring Boot entry point
+│   │       ├── controller/                 # REST controllers (@RestController)
+│   │       ├── service/                    # Business logic (@Service)
+│   │       ├── repository/                 # Data access (@Repository) — omit if no persistence
+│   │       ├── model/                      # JPA entities or domain objects
+│   │       └── config/                     # Spring configuration classes
+│   └── resources/
+│       ├── application.properties          # or application.yml
+│       └── (static/, templates/ only if needed)
+└── (no src/test/ — prohibited by constitution)
+pom.xml                                     # Maven build — latest Spring Boot parent
 ```
 
 **Structure Decision**: [Document the selected structure and reference the real

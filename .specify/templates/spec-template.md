@@ -5,17 +5,17 @@
 **Status**: Draft  
 **Input**: User description: "$ARGUMENTS"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Validation *(mandatory)*
 
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
-  Each user story/journey must be INDEPENDENTLY TESTABLE - meaning if you implement just ONE of them,
+  Each user story/journey must be INDEPENDENTLY VALIDATABLE - meaning if you implement just ONE of them,
   you should still have a viable MVP (Minimum Viable Product) that delivers value.
   
   Assign priorities (P1, P2, P3, etc.) to each story, where P1 is the most critical.
   Think of each story as a standalone slice of functionality that can be:
   - Developed independently
-  - Tested independently
+  - Validated independently via manual checks
   - Deployed independently
   - Demonstrated to users independently
 -->
@@ -26,7 +26,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently - e.g., "Can be fully tested by [specific action] and delivers [specific value]"]
+**Independent Validation**: [Describe how this can be validated manually and delivers specific value]
 
 **Acceptance Scenarios**:
 
@@ -41,7 +41,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently]
+**Independent Validation**: [Describe how this can be validated manually]
 
 **Acceptance Scenarios**:
 
@@ -55,7 +55,7 @@
 
 **Why this priority**: [Explain the value and why it has this priority level]
 
-**Independent Test**: [Describe how this can be tested independently]
+**Independent Validation**: [Describe how this can be validated manually]
 
 **Acceptance Scenarios**:
 
@@ -110,9 +110,26 @@
 ### Measurable Outcomes
 
 - **SC-001**: [Measurable metric, e.g., "Users can complete account creation in under 2 minutes"]
-- **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
-- **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
+- **SC-002**: [Performance/load metric if applicable, e.g., "API responds in < 200 ms under expected load" — **MUST be validated manually via local runs and observed API response logs; no automated performance test pipelines per constitution Principle IV**]
+- **SC-003**: [Functional completeness metric, e.g., "All specified endpoints return correct HTTP status codes when called via curl/Postman"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+
+## API Behavior *(include if feature exposes REST endpoints)*
+
+<!--
+  Document the expected API surface at a behavior level (not implementation).
+  Detailed request/response contracts live in specs/[###-feature]/contracts/.
+  Assumptions about API behavior MUST be reviewed in plan.md and flagged as
+  risks if unverified at implementation time (per constitution Development Workflow step 1).
+-->
+
+| Method | Path | Description | Success Response |
+|--------|------|-------------|-----------------|
+| GET | `/api/[resource]` | [What it returns] | 200 + JSON list |
+| POST | `/api/[resource]` | [What it creates] | 201 + created resource |
+| [ADD MORE AS NEEDED] | | | |
+
+**Manual Validation**: Endpoints MUST be validated via curl, Postman, or equivalent HTTP client call logs captured in feature docs.
 
 ## Assumptions
 
@@ -120,6 +137,10 @@
   ACTION REQUIRED: The content in this section represents placeholders.
   Fill them out with the right assumptions based on reasonable defaults
   chosen when the feature description did not specify certain details.
+
+  Assumptions MUST be reviewed in plan.md and flagged as risks if unverified
+  at implementation time. If an assumption is invalidated during implementation,
+  update both spec.md and plan.md before continuing.
 -->
 
 - [Assumption about target users, e.g., "Users have stable internet connectivity"]

@@ -1,50 +1,96 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+Sync Impact Report
+- Version change: template-placeholder -> 1.0.0
+- Modified principles:
+  - [PRINCIPLE_1_NAME] -> I. Clean Code Is Non-Negotiable
+  - [PRINCIPLE_2_NAME] -> II. Spring Boot Backend Simplicity
+  - [PRINCIPLE_3_NAME] -> III. Minimal Dependency Footprint
+  - [PRINCIPLE_4_NAME] -> IV. No Automated Tests or Test Artifacts
+  - [PRINCIPLE_5_NAME] -> V. Latest Spring Boot and Maven Required
+- Added sections:
+  - Additional Constraints
+  - Development Workflow
+- Removed sections:
+  - None
+- Templates requiring updates:
+  - ✅ .specify/templates/plan-template.md
+  - ✅ .specify/templates/spec-template.md
+  - ✅ .specify/templates/tasks-template.md
+  - ⚠ pending .specify/templates/commands/*.md (directory not present; no updates applied)
+- Deferred items:
+  - None
+-->
+
+# spec-kit-explore Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Clean Code Is Non-Negotiable
+All production code MUST be clear, cohesive, and maintainable. Classes and methods MUST
+have a single responsibility, names MUST express intent, and dead code MUST be removed
+instead of commented out. Large methods SHOULD be split into small units when complexity
+obscures behavior. Rationale: readability and low cognitive load are required for fast,
+safe iteration in a small backend codebase.
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+### II. Spring Boot Backend Simplicity
+The system MUST be implemented as a simple backend Java Spring Boot application with a
+layered architecture: controller, service, and repository (when persistence exists).
+Business rules MUST live in services, HTTP concerns MUST stay in controllers, and cross-
+layer shortcuts SHOULD be avoided unless explicitly documented in the feature plan.
+Rationale: predictable structure reduces defects and onboarding time.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+### III. Minimal Dependency Footprint
+Every new dependency MUST have documented necessity and no practical standard-library or
+existing-project alternative. Dependencies SHOULD be avoided for trivial utilities and MUST
+be removed when no longer used. Starter bundles MUST be selected conservatively to keep
+transitive libraries low. Rationale: fewer dependencies reduce supply-chain risk, startup
+overhead, and upgrade burden.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### IV. No Automated Tests or Test Artifacts
+The repository MUST NOT include unit, integration, end-to-end, contract, or performance
+test code, test frameworks, or test pipelines. Plans, specs, and tasks MUST use manual
+validation steps only and MUST NOT prescribe test-first or test-writing activities. Rationale:
+this project intentionally optimizes for direct implementation speed under explicit no-testing
+constraints.
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+### V. Latest Spring Boot and Maven Required
+All implementation MUST target the latest stable Spring Boot release and latest stable Maven
+release available at implementation time. Version pinning to older releases MUST be treated
+as non-compliant unless explicitly approved as a governance amendment. Build files SHOULD
+be updated promptly when a new stable release is adopted for active work. Rationale:
+staying current improves security posture and long-term maintainability.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+## Additional Constraints
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+- Language and runtime MUST be Java with Spring Boot.
+- Build and dependency management MUST use Maven.
+- Project structure MUST remain backend-focused; frontend/UI frameworks are out of scope.
+- Manual verification evidence (for example API call logs or endpoint responses) SHOULD be
+  captured in feature docs when behavior changes are introduced.
+- Any proposal that introduces automated testing, non-Maven builds, or non-Spring runtime
+  MUST be rejected unless the constitution is amended first.
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+## Development Workflow
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+1. Define or update feature spec with scope, API behavior, and manual validation steps.
+2. Create implementation plan that passes Constitution Check gates for architecture,
+   dependency minimization, no-testing compliance, and latest-version compliance.
+3. Implement in small commits that preserve controller-service-repository boundaries.
+4. Validate behavior manually via local application runs and endpoint-level checks.
+5. Conduct review focused on clean code, dependency impact, and constitutional compliance.
+6. Merge only when reviewer confirms there are no automated tests or test tasks added.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+- This constitution is the highest-priority engineering policy for this repository; all plans,
+  specs, tasks, and implementation artifacts MUST comply.
+- Amendments MUST be documented in a pull request that includes rationale, migration impact,
+  and explicit semantic version bump justification.
+- Versioning policy: MAJOR for incompatible governance changes or principle removals,
+  MINOR for new principles/sections or materially expanded mandates, PATCH for clarifications.
+- Compliance review MUST occur during planning and code review; violations MUST be fixed
+  before merge or formally waived through an approved amendment.
+- `README.md` and `.specify/templates/*` SHOULD be kept aligned with this constitution after
+  each amendment.
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+**Version**: 1.0.0 | **Ratified**: 2026-04-19 | **Last Amended**: 2026-04-19
